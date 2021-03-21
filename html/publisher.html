@@ -1,0 +1,771 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ASSIGNMENT 3</title><meta name="generator" content="MATLAB 9.9"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2021-03-21"><meta name="DC.source" content="publisher.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>ASSIGNMENT 3</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Question 1</a></li><li><a href="#6">Question 2</a></li><li><a href="#10">Question 3</a></li></ul></div><h2 id="1">Question 1</h2><p>a) The Electric field for 0.1V applied at one end is:</p><pre class="codeinput"><span class="keyword">global</span> C
+<span class="keyword">global</span> Em T
+<span class="keyword">global</span> BoundX BoundY
+<span class="keyword">global</span> Pxp Px Pyp Py Vx Vy
+<span class="keyword">global</span> Vtherm
+<span class="keyword">global</span> nElectrons
+<span class="keyword">global</span> t_mn
+
+C.q_0 = 1.60217653e-19;             <span class="comment">% electron charge</span>
+C.hb = 1.054571596e-34;             <span class="comment">% Dirac constant</span>
+C.h = C.hb * 2 * pi;                    <span class="comment">% Planck constant</span>
+C.m_0 = 9.10938215e-31;             <span class="comment">% electron mass</span>
+C.kb = 1.3806504e-23;               <span class="comment">% Boltzmann constant</span>
+C.eps_0 = 8.854187817e-12;          <span class="comment">% vacuum permittivity</span>
+C.mu_0 = 1.2566370614e-6;           <span class="comment">% vacuum permeability</span>
+C.c = 299792458;                    <span class="comment">% speed of light</span>
+C.g = 9.80665;                      <span class="comment">% metres (32.1740 ft) per s&sup2;</span>
+
+
+Em = 0.26 * C.m_0;                    <span class="comment">% Mass of the Electron</span>
+BoundX = 200e-9;                    <span class="comment">% X boundary</span>
+BoundY = 100e-9;                    <span class="comment">% Y boundary</span>
+T = 300;                            <span class="comment">% Semiconductor temperature</span>
+
+t_mn = 0.2e-12;                     <span class="comment">% Mean time between collisions</span>
+
+TimeSteps = 300;                   <span class="comment">% Number of time steps</span>
+
+nElectrons = 1000;                   <span class="comment">% Number of electrons</span>
+
+dt = 1e-14;                         <span class="comment">% Time Step</span>
+
+
+Efield = 0.1/BoundX
+</pre><pre class="codeoutput">
+Efield =
+
+   5.0000e+05
+
+</pre><p>b) The force is given by</p><pre class="codeinput">Force = Efield * C.q_0
+</pre><pre class="codeoutput">
+Force =
+
+   8.0109e-14
+
+</pre><p>c) Acceleration and 2-D plot of particle trajectory.</p><pre class="codeinput">Accel = Force/Em
+
+Pxp(1: nElectrons) = rand(nElectrons, 1) * BoundX;
+Pyp(1: nElectrons) = rand(nElectrons, 1) * BoundY;
+
+Vtherm = sqrt(2 * C.kb * T/Em);
+
+Vx(1: nElectrons) = randn(nElectrons, 1) * (Vtherm/sqrt(2));
+Vy(1: nElectrons) = randn(nElectrons, 1) * (Vtherm/sqrt(2));
+
+myColors = [<span class="string">'r'</span> <span class="string">'b'</span> <span class="string">'g'</span> <span class="string">'y'</span> <span class="string">'m'</span> ];
+myColorTyp = 1;
+
+Pscat = 1 - exp(-(dt/t_mn));
+
+a = randi(nElectrons,5,1);
+
+<span class="comment">% Current Density</span>
+J = zeros(1,TimeSteps - 1);
+<span class="comment">% I(1) = nElectrons * mean(abs(Vx)) * C.q_0 * BoundX * BoundY;</span>
+TAvgp = 300;
+<span class="keyword">for</span> i=2:TimeSteps
+
+   Px(1: nElectrons) = Pxp(1: nElectrons) + (Vx .* dt);
+   Py(1: nElectrons) = Pyp(1: nElectrons) + (Vy .* dt);
+
+      <span class="comment">%Apply 0.1V at one end</span>
+   Vx = Vx + ((1/2) * Accel * dt);
+
+   <span class="keyword">if</span>(Pscat &gt; rand())
+     Vx(1: nElectrons) = randn(nElectrons, 1) * Vtherm;
+     Vy(1: nElectrons) = randn(nElectrons, 1) * Vtherm;
+   <span class="keyword">end</span>
+
+   Vy((Py&gt;BoundY) | (Py&lt;0)) = -Vy((Py&gt;BoundY) | (Py&lt;0));
+
+   <span class="keyword">for</span> j=1:5
+       subplot(2,1,1);
+       plot([Pxp(a(j)) Px(a(j))], [Pyp(a(j)) Py(a(j))],myColors(j));
+       xlim([0 BoundX]);
+       ylim([0 BoundY]);
+   <span class="keyword">end</span>
+   pause(0.1)
+   hold <span class="string">on</span>
+   title(<span class="string">'2-D plot of particle trajectories'</span>);
+
+   VxAbs = abs(Vx);
+   VyAbs = abs(Vy);
+
+   TAvg = (mean((VxAbs.^2)+ (VyAbs.^2)) * Em)/(2 * C.kb);
+
+   subplot(2,1,2);
+   plot([i-1 i],[TAvgp TAvg],<span class="string">'r'</span>);
+   xlim([0 TimeSteps]);
+   ylim([0 2000]);
+   pause(0.1)
+   hold <span class="string">on</span>
+   title(<span class="string">'Average Temperature'</span>);
+
+   Px(Px&gt;BoundX) = Px(Px&gt;BoundX)-BoundX;
+   Px(Px&lt;0) = BoundX;
+
+   Pxp = Px;
+   Pyp = Py;
+   TAvgp = TAvg;
+   J(i) = nElectrons * mean(abs(Vx)) * C.q_0;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+Accel =
+
+   3.3823e+17
+
+</pre><img vspace="5" hspace="5" src="publisher_01.png" alt=""> <p>d) The equation to calculate the current in a given region is:</p><p>J = n * V * Q</p><p>Where J is the current density, n is the number of electrons in the region and Q is the charge in Coulombs.</p><p>The figure below shows the current map in the region:</p><pre class="codeinput">figure
+plot(linspace(2,TimeSteps,TimeSteps),J);
+title(<span class="string">'Current Plot'</span>);
+ylabel(<span class="string">'J'</span>);
+xlabel(<span class="string">'TimeSteps'</span>);
+</pre><img vspace="5" hspace="5" src="publisher_02.png" alt=""> <p>e) Density and temperature plots</p><pre class="codeinput">Vmag = sqrt(Vx.^2 + Vy.^2);
+Tmap = (Em * (Vmag.^2))./(2 * C.kb);
+mapX = linspace(min(Px), max(Px), 100);
+mapY = linspace(min(Py), max(Py), 50);
+[X,Y] = meshgrid(mapX, mapY);
+Tsurf = griddata(Px,Py,Tmap,X,Y);
+figure
+surf(Tsurf);
+title(<span class="string">'Temperature Map'</span>);
+
+Jx = linspace(0, BoundX, 100);
+Jy = linspace(0, BoundY, 50);
+CurrJ = histcounts2(Py, Px, Jy, Jx);
+figure
+surf(CurrJ);
+title(<span class="string">'Current Map'</span>);
+</pre><img vspace="5" hspace="5" src="publisher_03.png" alt=""> <img vspace="5" hspace="5" src="publisher_04.png" alt=""> <h2 id="6">Question 2</h2><p>clearvars</p><pre class="codeinput">clearvars <span class="string">-GLOBAL</span>
+close <span class="string">all</span>
+set(0,<span class="string">'DefaultFigureWindowStyle'</span>, <span class="string">'docked'</span>)
+
+<span class="comment">%CONSTANTS AND VARIABLES</span>
+
+<span class="keyword">global</span> C
+<span class="keyword">global</span> Em T
+<span class="keyword">global</span> BoundX BoundY
+<span class="keyword">global</span> Pxp Px Pyp Py Vx Vy
+<span class="keyword">global</span> Vtherm
+<span class="keyword">global</span> nElectrons
+<span class="keyword">global</span> t_mn
+
+
+
+C.q_0 = 1.60217653e-19;             <span class="comment">% electron charge</span>
+C.hb = 1.054571596e-34;             <span class="comment">% Dirac constant</span>
+C.h = C.hb * 2 * pi;                    <span class="comment">% Planck constant</span>
+C.m_0 = 9.10938215e-31;             <span class="comment">% electron mass</span>
+C.kb = 1.3806504e-23;               <span class="comment">% Boltzmann constant</span>
+C.eps_0 = 8.854187817e-12;          <span class="comment">% vacuum permittivity</span>
+C.mu_0 = 1.2566370614e-6;           <span class="comment">% vacuum permeability</span>
+C.c = 299792458;                    <span class="comment">% speed of light</span>
+C.g = 9.80665;                      <span class="comment">% metres (32.1740 ft) per s&sup2;</span>
+
+
+Em = 0.26 * C.m_0;                    <span class="comment">% Mass of the Electron</span>
+BoundX = 200e-9;                    <span class="comment">% X boundary</span>
+BoundY = 100e-9;                    <span class="comment">% Y boundary</span>
+T = 300;                            <span class="comment">% Semiconductor temperature</span>
+
+t_mn = 0.2e-12;                     <span class="comment">% Mean time between collisions</span>
+
+TimeSteps = 1000;                   <span class="comment">% Number of time steps</span>
+
+nElectrons = 1000;                   <span class="comment">% Number of electrons</span>
+
+dt = 1e-14;                         <span class="comment">% Time Step</span>
+
+[Ex, Ey, Vmap] = Efield_FD(0.8);
+</pre><p>a) Surface plot of V(x,y)</p><pre class="codeinput">figure
+set(surf(Vmap),<span class="string">'linestyle'</span>, <span class="string">'none'</span>);
+colorbar;
+title(<span class="string">'Surface plot of V(x,y)'</span>);
+</pre><img vspace="5" hspace="5" src="publisher_05.png" alt=""> <p>b) 2-D electric field vector plot</p><pre class="codeinput">figure
+quiver(Ex', Ey');
+title(<span class="string">'Electric field Plot'</span>);
+</pre><img vspace="5" hspace="5" src="publisher_06.png" alt=""> <p>c) 2-D particle trajectories</p><pre class="codeinput">ForceX = (1e9)* Ex * C.q_0;
+ForceY = (1e9)* Ey * C.q_0;
+AccelX = ForceX/Em;
+AccelY = ForceY/Em;
+
+<span class="comment">% BOX 1 Boundaries</span>
+
+Box1Bnd1x = 0.8e-7;
+Box1Bnd1y = 1e-7;
+Box1Bnd2x = 1.2e-7;
+Box1Bnd2y = 1e-7;
+Box1Bnd3x = 1.2e-7;
+Box1Bnd3y = 0.6e-7;
+Box1Bnd4x = 0.8e-7;
+Box1Bnd4y = 0.6e-7;
+
+<span class="comment">% BOX 2 Boundaries</span>
+
+Box2Bnd1x = 0.8e-7;
+Box2Bnd1y = 0.4e-7;
+Box2Bnd2x = 1.2e-7;
+Box2Bnd2y = 0.4e-7;
+Box2Bnd3x = 1.2e-7;
+Box2Bnd3y = 0;
+Box2Bnd4x = 0.8e-7;
+Box2Bnd4y = 0;
+
+subplot(2,1,1);
+myBoxes(Box1Bnd1x, Box1Bnd1y, Box1Bnd2x, Box1Bnd2y, Box1Bnd3x, Box1Bnd3y, Box1Bnd4x, Box1Bnd4y);
+myBoxes(Box2Bnd1x, Box2Bnd1y, Box2Bnd2x, Box2Bnd2y, Box2Bnd3x, Box2Bnd3y, Box2Bnd4x, Box2Bnd4y);
+hold <span class="string">on</span>
+
+<span class="comment">%Check if electrons are within Box 1 and Box 2</span>
+
+x = randi(nElectrons,1);
+Pxp(1: x) = ((Box2Bnd4x - 0).*rand(x, 1))* BoundX;
+Pxp(x+1: nElectrons) = ((BoundX - Box2Bnd3x).*rand(nElectrons - x, 1) + Box2Bnd3x )* BoundX;
+
+Pxp(1: nElectrons) = rand(nElectrons, 1) * BoundX;
+Pyp(1: nElectrons) = rand(nElectrons, 1) * BoundY;
+
+Vtherm = sqrt(2 * C.kb * T/Em);
+
+Vx(1: nElectrons) = randn(nElectrons, 1) * (Vtherm/sqrt(2));
+Vy(1: nElectrons) = randn(nElectrons, 1) * (Vtherm/sqrt(2));
+
+myColors = [<span class="string">'r'</span> <span class="string">'b'</span> <span class="string">'g'</span> <span class="string">'y'</span> <span class="string">'m'</span> ];
+myColorTyp = 1;
+
+Pscat = 1 - exp(-(dt/t_mn));
+
+a = randi(nElectrons,5,1);
+
+
+<span class="comment">% Current Density</span>
+J = zeros(1,TimeSteps - 1);
+<span class="comment">% I(1) = nElectrons * mean(abs(Vx)) * C.q_0 * BoundX * BoundY;</span>
+
+TAvgp = 300;
+<span class="keyword">for</span> i=2:TimeSteps
+
+    Px(1: nElectrons) = Pxp(1: nElectrons) + (Vx .* dt);
+    Py(1: nElectrons) = Pyp(1: nElectrons) + (Vy .* dt);
+
+   <span class="comment">%Apply 0.1V at one end</span>
+
+   [x_bin, edge_x] = discretize(Px,200);
+   [y_bin, edge_y] = discretize(Py,100);
+
+
+   Vx = Vx + (1/2) * AccelX(sub2ind(size(AccelX),x_bin,y_bin))*dt;
+   Vy = Vy + (1/2) * AccelY(sub2ind(size(AccelY),x_bin,y_bin))*dt;
+
+   <span class="keyword">if</span>(Pscat &gt; rand())
+     Vx(1: nElectrons) = randn(nElectrons, 1) * Vtherm;
+     Vy(1: nElectrons) = randn(nElectrons, 1) * Vtherm;
+   <span class="keyword">end</span>
+
+   Vy((Py&gt;BoundY) | (Py&lt;0)) = -Vy((Py&gt;BoundY) | (Py&lt;0));
+
+   <span class="keyword">for</span> j=1:5
+       subplot(2,1,1);
+       plot([Pxp(a(j)) Px(a(j))], [Pyp(a(j)) Py(a(j))],myColors(j));
+       xlim([0 BoundX]);
+       ylim([0 BoundY]);
+   <span class="keyword">end</span>
+   pause(0.1)
+   hold <span class="string">on</span>
+   title(<span class="string">'2-D plot of particle trajectories'</span>);
+
+   VxAbs = abs(Vx);
+   VyAbs = abs(Vy);
+
+   TAvg = (mean((VxAbs.^2)+ (VyAbs.^2)) * Em)/(2 * C.kb);
+
+   subplot(2,1,2);
+   plot([i-1 i],[TAvgp TAvg],<span class="string">'r'</span>);
+   xlim([0 TimeSteps]);
+   pause(0.1)
+   hold <span class="string">on</span>
+   title(<span class="string">'Average Temperature'</span>);
+
+
+   <span class="keyword">for</span> k = 1:nElectrons
+       <span class="keyword">if</span> (Py(k) &gt; Box1Bnd3y) &amp;&amp; (Px(k) &gt; Box1Bnd1x) &amp;&amp; (Px(k) &lt; Box1Bnd2x)
+            <span class="keyword">if</span> Pxp(k) &gt; Box1Bnd2x &amp;&amp; Px(k) &lt; Box1Bnd2x
+                Vx(k) = -Vx(k);
+                Px(k) = 2 * Box1Bnd2x - Px(k);
+            <span class="keyword">elseif</span> Pxp(k) &lt; Box1Bnd1x &amp;&amp; Px(k) &gt; Box1Bnd1x
+                Vx(k) = -Vx(k);
+                Px(k) = 2*Box1Bnd1x-Px(k);
+            <span class="keyword">elseif</span> Pyp(k) &lt; Box1Bnd3y &amp;&amp; Py(i) &gt; Box1Bnd3y
+                Vy(k) = -Vy(i);
+                Py(k) = 2 * Box1Bnd3y - Py(k);
+            <span class="keyword">end</span>
+        <span class="keyword">elseif</span> (Py(k) &lt;= Box2Bnd1y) &amp;&amp; (Px(k) &gt; Box2Bnd1x) &amp;&amp; (Px(k) &lt; Box2Bnd3x)
+            <span class="keyword">if</span> Pxp(k) &gt; Box2Bnd3x &amp;&amp; Px(k) &lt; Box2Bnd3x
+                Vx(k) = -Vx(k);
+                Px(k) = 2 * Box2Bnd3x - Px(k);
+            <span class="keyword">elseif</span> Pxp(k) &lt; Box2Bnd1x &amp;&amp; Px(k) &gt; Box2Bnd1x
+                Vx(k) = -Vx(k);
+                Px(k) = 2 * Box2Bnd1x - Px(k);
+            <span class="keyword">elseif</span> Pyp(i) &gt; Box2Bnd1y &amp;&amp; Py(k) &lt; Box2Bnd1y
+                Vy(k) = -Vy(k);
+                Py(k) = 2 * Box2Bnd1y - Py(k);
+            <span class="keyword">end</span>
+       <span class="keyword">end</span>
+    <span class="keyword">end</span>
+   Px(Px&gt;BoundX) = Px(Px&gt;BoundX)-BoundX;
+   Px(Px&lt;0) = BoundX;
+
+   Pxp = Px;
+   Pyp = Py;
+   TAvgp = TAvg;
+
+   J(i) = nElectrons * mean(abs(Vx)) * C.q_0;
+
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="publisher_07.png" alt=""> <h2 id="10">Question 3</h2><p>a) Density plot Density Map</p><pre class="codeinput">Jx = linspace(0, BoundX, 100);
+Jy = linspace(0, BoundY, 50);
+CurrJ = histcounts2(Py, Px, Jy, Jx);
+figure
+surf(CurrJ);
+</pre><img vspace="5" hspace="5" src="publisher_08.png" alt=""> <p>In the density map above, it can be observed that more electrons can be found on the side where the voltage was applied. Very few electrons get through the bottle neck as expected. this models resitance.</p><p>b) Plot of Current vs bottle neck</p><pre class="codeinput">figure
+plot(Necksizes, Curr);
+xlim([0 max(Necksizes)])
+</pre><img vspace="5" hspace="5" src="publisher_09.png" alt=""> <p>c) One way to increase the accuracy of this simulation is to increase the amount of time and the number of electrons. Another way will be to increase the size or resoluton of the region being simulated.</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% ASSIGNMENT 3
+%% Question 1
+% a) The Electric field for 0.1V applied at one end is:
+global C
+global Em T
+global BoundX BoundY
+global Pxp Px Pyp Py Vx Vy
+global Vtherm
+global nElectrons
+global t_mn
+
+C.q_0 = 1.60217653e-19;             % electron charge
+C.hb = 1.054571596e-34;             % Dirac constant
+C.h = C.hb * 2 * pi;                    % Planck constant
+C.m_0 = 9.10938215e-31;             % electron mass
+C.kb = 1.3806504e-23;               % Boltzmann constant
+C.eps_0 = 8.854187817e-12;          % vacuum permittivity
+C.mu_0 = 1.2566370614e-6;           % vacuum permeability
+C.c = 299792458;                    % speed of light
+C.g = 9.80665;                      % metres (32.1740 ft) per s²
+
+
+Em = 0.26 * C.m_0;                    % Mass of the Electron
+BoundX = 200e-9;                    % X boundary
+BoundY = 100e-9;                    % Y boundary
+T = 300;                            % Semiconductor temperature
+            
+t_mn = 0.2e-12;                     % Mean time between collisions
+                    
+TimeSteps = 300;                   % Number of time steps
+
+nElectrons = 1000;                   % Number of electrons
+
+dt = 1e-14;                         % Time Step
+
+
+Efield = 0.1/BoundX
+%%
+% b) The force is given by 
+Force = Efield * C.q_0
+%%
+% c) Acceleration and 2-D plot of particle trajectory.
+Accel = Force/Em
+
+Pxp(1: nElectrons) = rand(nElectrons, 1) * BoundX;
+Pyp(1: nElectrons) = rand(nElectrons, 1) * BoundY;
+
+Vtherm = sqrt(2 * C.kb * T/Em);
+
+Vx(1: nElectrons) = randn(nElectrons, 1) * (Vtherm/sqrt(2));
+Vy(1: nElectrons) = randn(nElectrons, 1) * (Vtherm/sqrt(2));
+
+myColors = ['r' 'b' 'g' 'y' 'm' ];
+myColorTyp = 1;
+
+Pscat = 1 - exp(-(dt/t_mn));
+
+a = randi(nElectrons,5,1);
+
+% Current Density
+J = zeros(1,TimeSteps - 1);
+% I(1) = nElectrons * mean(abs(Vx)) * C.q_0 * BoundX * BoundY;
+TAvgp = 300;
+for i=2:TimeSteps
+
+   Px(1: nElectrons) = Pxp(1: nElectrons) + (Vx .* dt);
+   Py(1: nElectrons) = Pyp(1: nElectrons) + (Vy .* dt);
+
+      %Apply 0.1V at one end
+   Vx = Vx + ((1/2) * Accel * dt);
+   
+   if(Pscat > rand())
+     Vx(1: nElectrons) = randn(nElectrons, 1) * Vtherm;
+     Vy(1: nElectrons) = randn(nElectrons, 1) * Vtherm;
+   end 
+
+   Vy((Py>BoundY) | (Py<0)) = -Vy((Py>BoundY) | (Py<0));
+   
+   for j=1:5
+       subplot(2,1,1);
+       plot([Pxp(a(j)) Px(a(j))], [Pyp(a(j)) Py(a(j))],myColors(j));
+       xlim([0 BoundX]);
+       ylim([0 BoundY]);
+   end
+   pause(0.1)
+   hold on
+   title('2-D plot of particle trajectories');
+   
+   VxAbs = abs(Vx);
+   VyAbs = abs(Vy);
+   
+   TAvg = (mean((VxAbs.^2)+ (VyAbs.^2)) * Em)/(2 * C.kb);
+ 
+   subplot(2,1,2);
+   plot([i-1 i],[TAvgp TAvg],'r');
+   xlim([0 TimeSteps]);
+   ylim([0 2000]);
+   pause(0.1)
+   hold on
+   title('Average Temperature');
+   
+   Px(Px>BoundX) = Px(Px>BoundX)-BoundX;
+   Px(Px<0) = BoundX;
+   
+   Pxp = Px;
+   Pyp = Py;
+   TAvgp = TAvg;
+   J(i) = nElectrons * mean(abs(Vx)) * C.q_0;
+end
+%%
+% d) The equation to calculate the current in a given region is:
+%
+% J = n * V * Q
+% 
+% Where J is the current density, n is the number of electrons in the
+% region and Q is the charge in Coulombs.
+%
+% The figure below shows the current map in the region:
+figure
+plot(linspace(2,TimeSteps,TimeSteps),J);
+title('Current Plot');
+ylabel('J');
+xlabel('TimeSteps');
+
+%%
+% e) Density and temperature plots
+
+Vmag = sqrt(Vx.^2 + Vy.^2);
+Tmap = (Em * (Vmag.^2))./(2 * C.kb);
+mapX = linspace(min(Px), max(Px), 100);
+mapY = linspace(min(Py), max(Py), 50);
+[X,Y] = meshgrid(mapX, mapY);
+Tsurf = griddata(Px,Py,Tmap,X,Y);
+figure
+surf(Tsurf);
+title('Temperature Map');
+
+Jx = linspace(0, BoundX, 100);
+Jy = linspace(0, BoundY, 50);
+CurrJ = histcounts2(Py, Px, Jy, Jx);
+figure
+surf(CurrJ);
+title('Current Map');
+
+%% Question 2
+% clearvars
+clearvars -GLOBAL
+close all
+set(0,'DefaultFigureWindowStyle', 'docked')
+
+%CONSTANTS AND VARIABLES
+
+global C
+global Em T
+global BoundX BoundY
+global Pxp Px Pyp Py Vx Vy
+global Vtherm
+global nElectrons
+global t_mn
+
+
+
+C.q_0 = 1.60217653e-19;             % electron charge
+C.hb = 1.054571596e-34;             % Dirac constant
+C.h = C.hb * 2 * pi;                    % Planck constant
+C.m_0 = 9.10938215e-31;             % electron mass
+C.kb = 1.3806504e-23;               % Boltzmann constant
+C.eps_0 = 8.854187817e-12;          % vacuum permittivity
+C.mu_0 = 1.2566370614e-6;           % vacuum permeability
+C.c = 299792458;                    % speed of light
+C.g = 9.80665;                      % metres (32.1740 ft) per s²
+
+
+Em = 0.26 * C.m_0;                    % Mass of the Electron
+BoundX = 200e-9;                    % X boundary
+BoundY = 100e-9;                    % Y boundary
+T = 300;                            % Semiconductor temperature
+            
+t_mn = 0.2e-12;                     % Mean time between collisions
+                    
+TimeSteps = 1000;                   % Number of time steps
+
+nElectrons = 1000;                   % Number of electrons
+
+dt = 1e-14;                         % Time Step
+
+[Ex, Ey, Vmap] = Efield_FD(0.8);
+%%
+% a) Surface plot of V(x,y)
+figure
+set(surf(Vmap),'linestyle', 'none');
+colorbar;
+title('Surface plot of V(x,y)');
+
+%%
+% b) 2-D electric field vector plot
+figure 
+quiver(Ex', Ey');
+title('Electric field Plot');
+
+%% 
+% c) 2-D particle trajectories
+ForceX = (1e9)* Ex * C.q_0;
+ForceY = (1e9)* Ey * C.q_0;
+AccelX = ForceX/Em;
+AccelY = ForceY/Em;
+
+% BOX 1 Boundaries
+
+Box1Bnd1x = 0.8e-7;
+Box1Bnd1y = 1e-7;
+Box1Bnd2x = 1.2e-7;
+Box1Bnd2y = 1e-7;
+Box1Bnd3x = 1.2e-7;
+Box1Bnd3y = 0.6e-7;
+Box1Bnd4x = 0.8e-7;
+Box1Bnd4y = 0.6e-7;
+
+% BOX 2 Boundaries
+
+Box2Bnd1x = 0.8e-7;
+Box2Bnd1y = 0.4e-7;
+Box2Bnd2x = 1.2e-7;
+Box2Bnd2y = 0.4e-7;
+Box2Bnd3x = 1.2e-7;
+Box2Bnd3y = 0;
+Box2Bnd4x = 0.8e-7;
+Box2Bnd4y = 0;
+
+subplot(2,1,1);
+myBoxes(Box1Bnd1x, Box1Bnd1y, Box1Bnd2x, Box1Bnd2y, Box1Bnd3x, Box1Bnd3y, Box1Bnd4x, Box1Bnd4y);
+myBoxes(Box2Bnd1x, Box2Bnd1y, Box2Bnd2x, Box2Bnd2y, Box2Bnd3x, Box2Bnd3y, Box2Bnd4x, Box2Bnd4y);
+hold on
+
+%Check if electrons are within Box 1 and Box 2
+
+x = randi(nElectrons,1);
+Pxp(1: x) = ((Box2Bnd4x - 0).*rand(x, 1))* BoundX;
+Pxp(x+1: nElectrons) = ((BoundX - Box2Bnd3x).*rand(nElectrons - x, 1) + Box2Bnd3x )* BoundX;
+
+Pxp(1: nElectrons) = rand(nElectrons, 1) * BoundX;
+Pyp(1: nElectrons) = rand(nElectrons, 1) * BoundY;
+
+Vtherm = sqrt(2 * C.kb * T/Em);
+
+Vx(1: nElectrons) = randn(nElectrons, 1) * (Vtherm/sqrt(2));
+Vy(1: nElectrons) = randn(nElectrons, 1) * (Vtherm/sqrt(2));
+
+myColors = ['r' 'b' 'g' 'y' 'm' ];
+myColorTyp = 1;
+
+Pscat = 1 - exp(-(dt/t_mn));
+
+a = randi(nElectrons,5,1);
+
+
+% Current Density
+J = zeros(1,TimeSteps - 1);
+% I(1) = nElectrons * mean(abs(Vx)) * C.q_0 * BoundX * BoundY;
+
+TAvgp = 300;
+for i=2:TimeSteps
+
+    Px(1: nElectrons) = Pxp(1: nElectrons) + (Vx .* dt);
+    Py(1: nElectrons) = Pyp(1: nElectrons) + (Vy .* dt);
+    
+   %Apply 0.1V at one end
+   
+   [x_bin, edge_x] = discretize(Px,200);
+   [y_bin, edge_y] = discretize(Py,100);
+    
+    
+   Vx = Vx + (1/2) * AccelX(sub2ind(size(AccelX),x_bin,y_bin))*dt;
+   Vy = Vy + (1/2) * AccelY(sub2ind(size(AccelY),x_bin,y_bin))*dt;
+   
+   if(Pscat > rand())
+     Vx(1: nElectrons) = randn(nElectrons, 1) * Vtherm;
+     Vy(1: nElectrons) = randn(nElectrons, 1) * Vtherm;
+   end 
+
+   Vy((Py>BoundY) | (Py<0)) = -Vy((Py>BoundY) | (Py<0));
+   
+   for j=1:5
+       subplot(2,1,1);
+       plot([Pxp(a(j)) Px(a(j))], [Pyp(a(j)) Py(a(j))],myColors(j));
+       xlim([0 BoundX]);
+       ylim([0 BoundY]);
+   end
+   pause(0.1)
+   hold on
+   title('2-D plot of particle trajectories');
+   
+   VxAbs = abs(Vx);
+   VyAbs = abs(Vy);
+   
+   TAvg = (mean((VxAbs.^2)+ (VyAbs.^2)) * Em)/(2 * C.kb);
+ 
+   subplot(2,1,2);
+   plot([i-1 i],[TAvgp TAvg],'r');
+   xlim([0 TimeSteps]);
+   pause(0.1)
+   hold on
+   title('Average Temperature');
+   
+
+   for k = 1:nElectrons
+       if (Py(k) > Box1Bnd3y) && (Px(k) > Box1Bnd1x) && (Px(k) < Box1Bnd2x)
+            if Pxp(k) > Box1Bnd2x && Px(k) < Box1Bnd2x
+                Vx(k) = -Vx(k);
+                Px(k) = 2 * Box1Bnd2x - Px(k);
+            elseif Pxp(k) < Box1Bnd1x && Px(k) > Box1Bnd1x
+                Vx(k) = -Vx(k);
+                Px(k) = 2*Box1Bnd1x-Px(k);
+            elseif Pyp(k) < Box1Bnd3y && Py(i) > Box1Bnd3y
+                Vy(k) = -Vy(i);
+                Py(k) = 2 * Box1Bnd3y - Py(k);
+            end
+        elseif (Py(k) <= Box2Bnd1y) && (Px(k) > Box2Bnd1x) && (Px(k) < Box2Bnd3x)
+            if Pxp(k) > Box2Bnd3x && Px(k) < Box2Bnd3x
+                Vx(k) = -Vx(k);
+                Px(k) = 2 * Box2Bnd3x - Px(k);
+            elseif Pxp(k) < Box2Bnd1x && Px(k) > Box2Bnd1x
+                Vx(k) = -Vx(k);
+                Px(k) = 2 * Box2Bnd1x - Px(k);
+            elseif Pyp(i) > Box2Bnd1y && Py(k) < Box2Bnd1y
+                Vy(k) = -Vy(k);
+                Py(k) = 2 * Box2Bnd1y - Py(k);
+            end
+       end  
+    end 
+   Px(Px>BoundX) = Px(Px>BoundX)-BoundX;
+   Px(Px<0) = BoundX;
+   
+   Pxp = Px;
+   Pyp = Py;
+   TAvgp = TAvg;
+  
+   J(i) = nElectrons * mean(abs(Vx)) * C.q_0;
+   
+end
+
+%% Question 3
+% a) Density plot
+% Density Map
+
+Jx = linspace(0, BoundX, 100);
+Jy = linspace(0, BoundY, 50);
+CurrJ = histcounts2(Py, Px, Jy, Jx);
+figure
+surf(CurrJ);
+
+%% 
+% In the density map above, it can be observed that more electrons can be
+% found on the side where the voltage was applied. Very few electrons get
+% through the bottle neck as expected. this models resitance.
+
+%%
+% b) Plot of Current vs bottle neck
+figure
+plot(Necksizes, Curr);
+xlim([0 max(Necksizes)])
+
+%%
+% c) One way to increase the accuracy of this simulation is to increase the
+% amount of time and the number of electrons. Another way will be to
+% increase the size or resoluton of the region being simulated. 
+##### SOURCE END #####
+--></body></html>
